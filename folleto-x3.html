@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Folleto MAC x3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<style>
+  @page { size: 11in 8.5in; margin: 0; }
+  :root {
+    --navy: #0b3a60;
+    --ink: #0a1a2a;
+    --cyan: #28abe1;
+    --orange: #faa93d;
+    --silver: #b5c3d0;
+    --slate: #4a5a6c;
+    --paper: #f7f9fb;
+    --line: #dbe3ea;
+    --m: .3in;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #e6ebf0; }
+  body { font-family: "Geist", system-ui, sans-serif; color: var(--ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .sheet { width: 11in; height: 8.5in; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); background: var(--paper); overflow: hidden; }
+  @media screen { .sheet { margin: 24px auto; box-shadow: 0 10px 40px rgba(11,58,96,.18); } }
+  .mono { font-family: "Geist Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+  .serif { font-family: "Instrument Serif", serif; font-weight: 400; }
+
+  .panel { position: relative; height: 8.5in; overflow: hidden; display: flex; flex-direction: column; background: var(--paper); }
+  .panel > * { flex-shrink: 0; }
+  /* guía de corte */
+  .panel + .panel::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; border-left: 1px dashed #8a97a4; z-index: 5; }
+
+  .grid-bg {
+    position: absolute; top: 0; right: 0; width: 2.6in; height: 2.6in;
+    background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 16px 16px;
+    -webkit-mask-image: radial-gradient(circle at 100% 0%, #000 20%, transparent 72%);
+            mask-image: radial-gradient(circle at 100% 0%, #000 20%, transparent 72%);
+  }
+
+  .head { position: relative; padding: .28in var(--m) 0; }
+  .head img { width: 1.55in; height: auto; display: block; margin-left: -.05in; }
+  .head .meta { margin-top: .08in; font-size: 5.6pt; color: var(--navy); }
+  .dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); margin-right: 4px; vertical-align: 1px; }
+
+  .hero { position: relative; padding: .2in var(--m) 0; }
+  .hero h1 { font-size: 25pt; line-height: .96; letter-spacing: -.015em; color: var(--navy); }
+  .hero h1 em { color: var(--cyan); font-style: italic; }
+  .hero p { margin-top: .1in; font-size: 7.6pt; line-height: 1.5; color: var(--slate); }
+
+  .services { padding: .18in var(--m) 0; }
+  .svc { padding: .09in 0 .1in; border-top: 1px solid var(--line); }
+  .svc:first-child { border-top: 1.5px solid var(--navy); }
+  .svc h2 { font-size: 15pt; line-height: 1; color: var(--navy); }
+  .svc .num { font-family: "Geist Mono", monospace; font-size: 6pt; color: var(--cyan); vertical-align: 5pt; margin-right: 5px; }
+  .svc p { font-size: 7.3pt; line-height: 1.4; color: var(--slate); margin-top: .04in; }
+
+  .band { margin: .16in var(--m) 0; background: var(--navy); color: #fff; border-radius: 3px; padding: .12in .16in; position: relative; overflow: hidden; }
+  .band::after { content: ""; position: absolute; right: -.35in; top: -.35in; width: .9in; height: .9in; border-radius: 50%; border: 1px solid rgba(40,171,225,.35); }
+  .band .k { font-size: 5.2pt; color: var(--cyan); }
+  .band h3 { font-size: 14pt; line-height: 1; margin-top: .03in; }
+  .band h3 em { color: var(--orange); }
+  .band ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: .03in .1in; margin-top: .07in; font-size: 6.8pt; color: #dce6ef; }
+  .band li::before { content: "/>"; font-family: "Geist Mono", monospace; color: var(--cyan); margin-right: 4px; font-size: 6pt; }
+
+  .flow { padding: .16in var(--m) .16in; }
+  .flow .k { font-size: 5.4pt; color: var(--slate); }
+  .flow ol { list-style: none; display: grid; grid-template-columns: repeat(4, auto); justify-content: space-between; margin-top: .06in; position: relative; }
+  .flow ol::before { content: ""; position: absolute; left: 4px; right: 0; top: 4px; height: 1px; background: var(--silver); }
+  .flow li { position: relative; }
+  .flow li i { display: block; width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--cyan); background: var(--paper); position: relative; }
+  .flow li:last-child i { background: var(--cyan); }
+  .flow li b { display: block; font-family: "Instrument Serif", serif; font-weight: 400; font-size: 9.5pt; color: var(--navy); margin-top: .04in; }
+
+  .foot { margin-top: auto; background: var(--ink); color: #fff; padding: .16in var(--m); display: grid; grid-template-columns: 1fr auto; gap: .12in; align-items: center; }
+  .foot .k { font-size: 5.4pt; color: var(--orange); }
+  .foot h4 { font-size: 13pt; line-height: 1; margin-top: .04in; }
+  .foot h4 em { color: var(--cyan); }
+  .foot .contact { margin-top: .08in; display: grid; gap: .05in; }
+  .foot .contact b { display: block; font-family: "Geist Mono", monospace; font-size: 5pt; letter-spacing: .1em; text-transform: uppercase; color: var(--silver); font-weight: 400; }
+  .foot .contact strong { color: #fff; font-weight: 500; font-size: 8pt; white-space: nowrap; }
+  .qr { background: #fff; padding: 4px; border-radius: 3px; text-align: center; }
+  .qr .code svg { width: .78in; height: .78in; display: block; }
+  .qr span { display: block; font-family: "Geist Mono", monospace; font-size: 4.2pt; letter-spacing: .06em; color: var(--navy); margin-top: 2px; }
+</style>
+</head>
+<body>
+<main class="sheet" id="sheet"></main>
+
+<template id="panel">
+  <section class="panel">
+    <div class="grid-bg"></div>
+
+    <div class="head">
+      <img src="logo-miguel.png" alt="MAC — Miguel Angel Cabrera, Desarrollo Web | Electrónica">
+      <div class="meta mono"><span class="dot"></span>Estudio web independiente · Remoto desde México</div>
+    </div>
+
+    <div class="hero">
+      <h1 class="serif">Tu negocio en línea, <em>funcionando</em> y sin quedarse solo.</h1>
+    </div>
+
+    <div class="services">
+      <article class="svc">
+        <h2 class="serif"><span class="num">01</span>Sitios web</h2>
+        <p>Landing pages y sitios corporativos que convierten visitas en oportunidades.</p>
+      </article>
+      <article class="svc">
+        <h2 class="serif"><span class="num">02</span>Tiendas online</h2>
+        <p>Tiendas rápidas, claras y listas para vender sin fricción.</p>
+      </article>
+      <article class="svc">
+        <h2 class="serif"><span class="num">03</span>Marketing digital</h2>
+        <p>SEO básico y presencia en redes para que tu negocio se deje encontrar.</p>
+      </article>
+      <article class="svc">
+        <h2 class="serif"><span class="num">04</span>Mantenimiento</h2>
+        <p>Soporte continuo, mejoras y tranquilidad para tu equipo.</p>
+      </article>
+    </div>
+
+    <div class="band">
+      <div class="k mono">Incluido en todos los proyectos</div>
+      <h3 class="serif">Hosting y <em>mantenimiento</em></h3>
+      <ul>
+        <li>Respaldos automáticos</li>
+        <li>Parches de seguridad</li>
+        <li>Monitoreo constante</li>
+        <li>Soporte directo</li>
+      </ul>
+    </div>
+
+    <div class="flow">
+      <ol>
+        <li><i></i><b>Entendemos</b></li>
+        <li><i></i><b>Diseñamos</b></li>
+        <li><i></i><b>Construimos</b></li>
+        <li><i></i><b>Acompañamos</b></li>
+      </ol>
+    </div>
+
+    <div class="foot">
+      <div>
+        <div class="k mono">Hablemos de tu proyecto</div>
+        <h4 class="serif">Cuéntanos qué quieres <em>construir.</em></h4>
+        <div class="contact">
+          <div><b>WhatsApp / Tel.</b><strong>777 411 7233</strong></div>
+          <div><b>Agenda un diagnóstico</b><strong>cal.com/miguel-angel-programacion</strong></div>
+        </div>
+      </div>
+      <div class="qr">
+        <div class="code"></div>
+        <span>ESCANEA · WHATSAPP</span>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+  var tpl = document.getElementById('panel');
+  var sheet = document.getElementById('sheet');
+  var svg = '';
+  try {
+    var q = qrcode(0, 'M');
+    q.addData('https://wa.me/527774117233');
+    q.make();
+    svg = q.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+  } catch (e) {
+    svg = 'wa.me/527774117233';
+  }
+  for (var i = 0; i < 3; i++) {
+    var node = tpl.content.cloneNode(true);
+    node.querySelector('.code').innerHTML = svg;
+    sheet.appendChild(node);
+  }
+</script>
+</body>
+</html>

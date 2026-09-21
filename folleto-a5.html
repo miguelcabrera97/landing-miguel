@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Folleto MAC A5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<style>
+  @page { size: 148mm 210mm; margin: 0; }
+  :root {
+    --navy: #0b3a60;
+    --ink: #0a1a2a;
+    --cyan: #28abe1;
+    --orange: #faa93d;
+    --silver: #b5c3d0;
+    --slate: #4a5a6c;
+    --paper: #f7f9fb;
+    --line: #dbe3ea;
+    --m: 11mm;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #e6ebf0; }
+  body { font-family: "Geist", system-ui, sans-serif; color: var(--ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .sheet {
+    width: 148mm; height: 210mm; margin: 0 auto; background: var(--paper);
+    position: relative; overflow: hidden; display: flex; flex-direction: column;
+  }
+  .sheet > * { flex-shrink: 0; }
+  @media screen { .sheet { margin: 24px auto; box-shadow: 0 10px 40px rgba(11,58,96,.18); } }
+  .mono { font-family: "Geist Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+  .serif { font-family: "Instrument Serif", serif; font-weight: 400; }
+
+  .grid-bg {
+    position: absolute; top: 0; right: 0; width: 80mm; height: 80mm;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 16px 16px;
+    -webkit-mask-image: radial-gradient(circle at 100% 0%, #000 20%, transparent 72%);
+            mask-image: radial-gradient(circle at 100% 0%, #000 20%, transparent 72%);
+  }
+
+  header { position: relative; display: flex; justify-content: space-between; align-items: flex-start; padding: 7mm var(--m) 0; }
+  header img { width: 34mm; height: auto; display: block; margin-left: -2mm; }
+  header .meta { text-align: right; font-size: 6pt; color: var(--slate); line-height: 1.7; padding-top: 3mm; }
+  header .meta b { color: var(--navy); font-weight: 500; }
+  .dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); margin-right: 4px; vertical-align: 1px; }
+
+  .hero { position: relative; padding: 4.5mm var(--m) 0; }
+  .hero h1 { font-size: 25pt; line-height: .96; letter-spacing: -.015em; color: var(--navy); }
+  .hero h1 em { color: var(--cyan); font-style: italic; }
+  .hero p { margin-top: 3mm; font-size: 8pt; line-height: 1.5; color: var(--slate); }
+
+  .services { padding: 4.5mm var(--m) 0; display: grid; grid-template-columns: 1fr 1fr; }
+  .svc { padding: 2.4mm 4mm 2.6mm 0; border-top: 1.5px solid var(--navy); }
+  .svc:nth-child(even) { padding-left: 4mm; padding-right: 0; border-left: 1px solid var(--line); }
+  .svc:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .svc h2 { font-size: 16pt; line-height: 1; color: var(--navy); }
+  .svc .num { font-family: "Geist Mono", monospace; font-size: 6.5pt; color: var(--cyan); vertical-align: 5pt; margin-right: 5px; }
+  .svc p { font-size: 7.5pt; line-height: 1.45; color: var(--slate); margin-top: 1.8mm; }
+  .svc .tags { margin-top: 2.2mm; font-size: 5.5pt; color: var(--navy); opacity: .75; }
+
+  .band {
+    margin: 4mm var(--m) 0; background: var(--navy); color: #fff; border-radius: 3px;
+    padding: 3.2mm 5mm; position: relative; overflow: hidden;
+  }
+  .band::after { content: ""; position: absolute; right: -12mm; top: -12mm; width: 26mm; height: 26mm; border-radius: 50%; border: 1px solid rgba(40,171,225,.35); }
+  .band .k { font-size: 5.5pt; color: var(--cyan); }
+  .band h3 { font-size: 16pt; line-height: 1; margin-top: 1mm; }
+  .band h3 em { color: var(--orange); }
+  .band ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 1.2mm 4mm; margin-top: 2mm; font-size: 7.5pt; color: #dce6ef; }
+  .band li::before { content: "/>"; font-family: "Geist Mono", monospace; color: var(--cyan); margin-right: 5px; font-size: 6.5pt; }
+
+  .process { padding: 4mm var(--m) 4mm; }
+  .process .k { font-size: 5.8pt; color: var(--slate); }
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 2.6mm; position: relative; }
+  .steps::before { content: ""; position: absolute; left: 5px; right: 0; top: 5px; height: 1px; background: var(--silver); }
+  .step { padding-right: 2mm; }
+  .step i { display: block; width: 11px; height: 11px; border-radius: 50%; border: 1.5px solid var(--cyan); background: var(--paper); position: relative; }
+  .step:last-child i { background: var(--cyan); }
+  .step b { display: block; font-family: "Instrument Serif", serif; font-weight: 400; font-size: 12pt; color: var(--navy); margin-top: 1.6mm; }
+  .step span { display: block; font-size: 6.3pt; line-height: 1.4; color: var(--slate); margin-top: .6mm; }
+
+  footer {
+    margin-top: auto; background: var(--ink); color: #fff; padding: 5mm var(--m);
+    display: grid; grid-template-columns: 1fr auto; gap: 5mm; align-items: center;
+  }
+  footer .k { font-size: 5.8pt; color: var(--orange); }
+  footer h4 { font-size: 16pt; line-height: 1; margin-top: 1.2mm; }
+  footer h4 em { color: var(--cyan); }
+  footer .contact { margin-top: 3mm; display: flex; gap: 6mm; font-size: 8pt; color: #c9d5e0; }
+  footer .contact b { display: block; font-family: "Geist Mono", monospace; font-size: 5.5pt; letter-spacing: .1em; text-transform: uppercase; color: var(--silver); font-weight: 400; margin-bottom: 1px; }
+  footer .contact strong { color: #fff; font-weight: 500; font-size: 8.5pt; white-space: nowrap; }
+  .qr { background: #fff; padding: 5px; border-radius: 3px; text-align: center; }
+  .qr div svg { width: 20mm; height: 20mm; display: block; }
+  .qr span { display: block; font-family: "Geist Mono", monospace; font-size: 4.8pt; letter-spacing: .08em; color: var(--navy); margin-top: 3px; }
+</style>
+</head>
+<body>
+<main class="sheet">
+  <div class="grid-bg"></div>
+
+  <header>
+    <img src="logo-miguel.png" alt="MAC — Miguel Angel Cabrera, Desarrollo Web | Electrónica">
+    <div class="meta mono">
+      <div><span class="dot"></span><b>Estudio web independiente</b></div>
+      <div>Remoto desde México</div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1 class="serif">Tu negocio en línea, <em>funcionando</em> y sin quedarse solo.</h1>
+    <p>Creamos sitios web, tiendas online y automatizaciones que hacen crecer empresas reales. Sin soluciones genéricas: diseñamos lo que tu negocio necesita para avanzar.</p>
+  </section>
+
+  <section class="services">
+    <article class="svc">
+      <h2 class="serif"><span class="num">01</span>Sitios web</h2>
+      <p>Landing pages y sitios corporativos que convierten visitas en oportunidades.</p>
+      <div class="tags mono">WordPress / Elementor / SEO</div>
+    </article>
+    <article class="svc">
+      <h2 class="serif"><span class="num">02</span>Tiendas online</h2>
+      <p>Tiendas rápidas, claras y listas para vender sin fricción.</p>
+      <div class="tags mono">Catálogo / Pagos / Pedidos</div>
+    </article>
+    <article class="svc">
+      <h2 class="serif"><span class="num">03</span>Marketing digital</h2>
+      <p>SEO básico y presencia en redes para que tu negocio se deje encontrar.</p>
+      <div class="tags mono">SEO / Redes / Ads</div>
+    </article>
+    <article class="svc">
+      <h2 class="serif"><span class="num">04</span>Mantenimiento</h2>
+      <p>Soporte continuo, mejoras y tranquilidad para tu equipo.</p>
+      <div class="tags mono">Hosting / Seguridad / Soporte</div>
+    </article>
+  </section>
+
+  <section class="band">
+    <div class="k mono">Incluido en todos los proyectos</div>
+    <h3 class="serif">Hosting y <em>mantenimiento</em></h3>
+    <ul>
+      <li>Respaldos automáticos</li>
+      <li>Parches de seguridad</li>
+      <li>Monitoreo constante</li>
+      <li>Soporte directo</li>
+    </ul>
+  </section>
+
+  <section class="process">
+    <div class="k mono">Cómo trabajamos · landing lista en 7 a 10 días hábiles</div>
+    <div class="steps">
+      <div class="step"><i></i><b>Entendemos</b><span>Qué quieres lograr y qué frena tu negocio.</span></div>
+      <div class="step"><i></i><b>Diseñamos</b><span>Una experiencia clara, útil y bonita.</span></div>
+      <div class="step"><i></i><b>Construimos</b><span>Desarrollamos, probamos y lanzamos.</span></div>
+      <div class="step"><i></i><b>Acompañamos</b><span>Mejoramos y mantenemos tu proyecto.</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <div class="k mono">Hablemos de tu proyecto</div>
+      <h4 class="serif">Cuéntanos qué quieres <em>construir.</em></h4>
+      <div class="contact">
+        <div><b>WhatsApp / Tel.</b><strong>777 411 7233</strong></div>
+        <div><b>Agenda un diagnóstico</b><strong>cal.com/miguel-angel-programacion</strong></div>
+      </div>
+    </div>
+    <div class="qr">
+      <div id="qr"></div>
+      <span>ESCANEA · WHATSAPP</span>
+    </div>
+  </footer>
+</main>
+<script>
+  try {
+    var q = qrcode(0, 'M');
+    q.addData('https://wa.me/527774117233');
+    q.make();
+    document.getElementById('qr').innerHTML = q.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+  } catch (e) {
+    document.getElementById('qr').textContent = 'wa.me/527774117233';
+  }
+</script>
+</body>
+</html>

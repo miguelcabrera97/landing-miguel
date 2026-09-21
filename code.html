@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MAC — Sitios web, tiendas y mantenimiento | Miguel Angel Cabrera</title>
+<meta name="description" content="Estudio independiente en México. Landing pages, sitios corporativos y tiendas online con hosting y mantenimiento incluidos. Respuesta el mismo día."/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="MAC — Tu negocio merece verse increíble"/>
+<meta property="og:description" content="Sitios web, tiendas online y automatizaciones con hosting y mantenimiento incluidos."/>
+<meta property="og:locale" content="es_MX"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="theme-color" content="#0c0f13"/>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b3a60'/%3E%3Cpath d='M8 23V9l8 9 8-9v14' fill='none' stroke='%2328abe1' stroke-width='2.6' stroke-linejoin='round' stroke-linecap='round'/%3E%3Ccircle cx='25.5' cy='6.5' r='2.4' fill='%23faa93d'/%3E%3C/svg%3E"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg: "#0c0f13",
+        surface: "#12161c",
+        "surface-2": "#19202a",
+        "surface-3": "#222b37",
+        line: "rgba(181,195,208,0.09)",
+        "line-strong": "rgba(181,195,208,0.18)",
+        ink: "#e6ebf0",
+        "ink-2": "#9aa6b2",
+        "ink-3": "#7c8794",
+        accent: "#28abe1",
+        "accent-ink": "#04182a",
+        signal: "#faa93d",
+        danger: "#f2a48c"
+      },
+      fontFamily: {
+        serif: ["Instrument Serif", "Georgia", "serif"],
+        sans: ["Geist", "system-ui", "sans-serif"],
+        mono: ["Geist Mono", "ui-monospace", "monospace"]
+      },
+      borderRadius: { btn: "6px", box: "14px" },
+      maxWidth: { page: "1240px" },
+      zIndex: { header: "40", overlay: "50", skip: "60" },
+      boxShadow: {
+        warm: "0 1px 0 rgba(181,195,208,0.04) inset, 0 24px 48px -24px rgba(2,10,20,0.8)"
+      }
+    }
+  }
+};
+</script>
+<style>
+  html { scroll-behavior: smooth; scroll-padding-top: 5.5rem; }
+  body { font-feature-settings: "ss01"; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+  .tabular { font-variant-numeric: tabular-nums; }
+
+  /* Grain overlay */
+  .grain {
+    position: fixed; inset: 0; pointer-events: none; z-index: 50; opacity: .035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  /* Dot grid for hero */
+  .dotgrid {
+    background-image: radial-gradient(rgba(181,195,208,.09) 1px, transparent 1px);
+    background-size: 22px 22px;
+    mask-image: radial-gradient(ellipse 70% 60% at 30% 40%, #000 30%, transparent 75%);
+  }
+  /* Logo on dark: invert + hue-rotate keeps brand hues while lifting the navy outline (logo-miguel.png has transparent bg) */
+  .logo-dark { filter: invert(1) hue-rotate(180deg) saturate(1.15); }
+  /* Header crop: shows only the "MAC/>" wordmark (source px x210–1650, y60–480) at 36px tall */
+  .logo-crop { position: relative; overflow: hidden; }
+  .logo-crop img { position: absolute; max-width: none; width: 162px; height: auto; left: -18px; top: -5px; }
+
+  /* LED status dot */
+  .led { box-shadow: 0 0 0 3px rgba(250,169,61,.14), 0 0 12px rgba(250,169,61,.55); }
+  @keyframes blink { 0%, 100% { opacity: 1 } 50% { opacity: .45 } }
+  .led-blink { animation: blink 2.4s ease-in-out infinite; }
+
+  /* Focus */
+  :focus-visible { outline: 2px solid #28abe1; outline-offset: 3px; border-radius: 6px; }
+
+  /* Reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0ms); }
+  .reveal.is-in { opacity: 1; transform: none; }
+  .no-js .reveal { opacity: 1; transform: none; }
+
+  /* Details marker */
+  summary { list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  details[open] .faq-icon { transform: rotate(45deg); }
+
+  /* Trace line (process) */
+  .trace { background-image: linear-gradient(90deg, rgba(181,195,208,.18) 50%, transparent 50%); background-size: 8px 1px; background-repeat: repeat-x; }
+  .trace-v { background-image: linear-gradient(180deg, rgba(181,195,208,.18) 50%, transparent 50%); background-size: 1px 8px; background-repeat: repeat-y; }
+
+  /* Form field invalid */
+  .field[data-invalid="true"] input, .field[data-invalid="true"] textarea { border-color: #f2a48c; }
+  .field[data-invalid="true"] .field-error { display: block; }
+
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 256 256'%3E%3Cpath fill='%239aa6b2' d='M213.66 101.66l-80 80a8 8 0 0 1-11.32 0l-80-80a8 8 0 0 1 11.32-11.32L128 164.69l74.34-74.35a8 8 0 0 1 11.32 11.32Z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; appearance: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .led-blink { animation: none; }
+    * { transition-duration: 0ms !important; }
+  }
+</style>
+</head>
+<body class="no-js bg-bg text-ink font-sans text-[1rem] leading-relaxed">
+<script>document.body.classList.remove('no-js');</script>
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-skip focus:px-4 focus:py-2 focus:bg-accent focus:text-accent-ink focus:rounded-btn font-medium">Saltar al contenido</a>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- HEADER -->
+<header class="fixed top-0 inset-x-0 z-header border-b border-line bg-bg/80 backdrop-blur-md">
+  <div class="max-w-page mx-auto h-[4.25rem] px-5 md:px-8 flex items-center justify-between gap-6">
+    <a href="#top" class="logo-crop block h-9 w-[124px] opacity-95 hover:opacity-100 transition-opacity duration-200">
+      <img src="logo-miguel.png" alt="MAC — Miguel Angel Cabrera, inicio" class="logo-dark" width="480" height="244"/>
+    </a>
+
+    <nav aria-label="Principal" class="hidden lg:flex items-center gap-1 text-[0.92rem]" id="nav-desktop">
+      <a href="#servicios" class="nav-link px-3 py-2 rounded-btn text-ink-2 hover:text-ink transition-colors duration-200">Servicios</a>
+      <a href="#planes" class="nav-link px-3 py-2 rounded-btn text-ink-2 hover:text-ink transition-colors duration-200">Planes</a>
+      <a href="#proceso" class="nav-link px-3 py-2 rounded-btn text-ink-2 hover:text-ink transition-colors duration-200">Proceso</a>
+      <a href="#proyectos" class="nav-link px-3 py-2 rounded-btn text-ink-2 hover:text-ink transition-colors duration-200">Proyectos</a>
+      <a href="#faq" class="nav-link px-3 py-2 rounded-btn text-ink-2 hover:text-ink transition-colors duration-200">Preguntas</a>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a href="#contacto" class="hidden sm:inline-flex items-center gap-2 h-10 px-4 rounded-btn bg-accent text-accent-ink text-[0.92rem] font-medium hover:bg-[#4dbbe8] active:scale-[.98] transition duration-200">
+        Agendar llamada
+        <i class="ph ph-arrow-up-right text-[1rem]" aria-hidden="true"></i>
+      </a>
+      <button type="button" id="menu-btn" class="lg:hidden w-10 h-10 rounded-btn border border-line flex items-center justify-center text-ink hover:bg-surface-2 active:scale-[.97] transition duration-200" aria-expanded="false" aria-controls="menu-panel" aria-label="Abrir menú">
+        <i class="ph ph-list text-[1.25rem]" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+
+  <div id="menu-panel" class="lg:hidden hidden border-t border-line bg-bg">
+    <nav aria-label="Móvil" class="max-w-page mx-auto px-5 py-3 flex flex-col">
+      <a href="#servicios" class="py-3 border-b border-line flex justify-between items-center">Servicios <span class="font-mono text-xs text-ink-3">01</span></a>
+      <a href="#planes" class="py-3 border-b border-line flex justify-between items-center">Planes <span class="font-mono text-xs text-ink-3">02</span></a>
+      <a href="#proceso" class="py-3 border-b border-line flex justify-between items-center">Proceso <span class="font-mono text-xs text-ink-3">03</span></a>
+      <a href="#proyectos" class="py-3 border-b border-line flex justify-between items-center">Proyectos <span class="font-mono text-xs text-ink-3">04</span></a>
+      <a href="#faq" class="py-3 border-b border-line flex justify-between items-center">Preguntas <span class="font-mono text-xs text-ink-3">05</span></a>
+      <a href="#contacto" class="mt-4 mb-2 h-11 rounded-btn bg-accent text-accent-ink font-medium flex items-center justify-center gap-2">Agendar llamada <i class="ph ph-arrow-up-right" aria-hidden="true"></i></a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="pt-[4.25rem]">
+
+<!-- HERO -->
+<section id="top" class="relative overflow-hidden">
+  <div class="dotgrid absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+  <div class="relative max-w-page mx-auto px-5 md:px-8 pt-16 md:pt-24 pb-20 md:pb-28 grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-10 items-end">
+    <div class="lg:col-span-7">
+      <p class="reveal inline-flex items-center gap-2.5 font-mono text-[0.78rem] text-ink-2 mb-8">
+        <span class="w-1.5 h-1.5 rounded-full bg-signal led led-blink"></span>
+        Estudio digital independiente · México
+      </p>
+      <h1 class="reveal font-serif text-[3.25rem] sm:text-[4.5rem] lg:text-[5.75rem] leading-[0.95] tracking-[-0.02em]" style="--d:80ms">
+        Tu negocio merece verse <em class="text-accent">increíble.</em>
+      </h1>
+      <p class="reveal mt-8 max-w-[34rem] text-[1.15rem] text-ink-2 leading-[1.6]" style="--d:160ms">
+        Creamos sitios web, tiendas online y automatizaciones que hacen crecer empresas reales. Hosting y mantenimiento van incluidos, así que tu sitio nunca se queda solo.
+      </p>
+      <div class="reveal mt-10 flex flex-wrap items-center gap-x-7 gap-y-4" style="--d:240ms">
+        <a href="#contacto" class="inline-flex items-center gap-2 h-12 px-6 rounded-btn bg-accent text-accent-ink font-medium hover:bg-[#4dbbe8] active:scale-[.98] transition duration-200">
+          Cuéntanos tu idea
+          <i class="ph ph-arrow-right" aria-hidden="true"></i>
+        </a>
+        <a href="https://cal.com/miguel-angel-programacion/diagnostico" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-2 text-ink hover:text-accent transition-colors duration-200">
+          <i class="ph ph-calendar-blank text-ink-2 group-hover:text-accent transition-colors" aria-hidden="true"></i>
+          <span class="underline decoration-line-strong underline-offset-[6px] group-hover:decoration-accent">Agendar una llamada de 20 min</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Spec sheet -->
+    <aside class="reveal lg:col-span-5 lg:pl-8" style="--d:320ms" aria-label="Datos clave">
+      <div class="rounded-box border border-line bg-surface/80 backdrop-blur-sm shadow-warm">
+        <div class="flex items-center justify-between px-5 py-3 border-b border-line font-mono text-[0.72rem] text-ink-3">
+          <span>// ficha técnica</span>
+          <span class="tabular">rev. 2026</span>
+        </div>
+        <dl class="divide-y divide-line">
+          <div class="px-5 py-5 grid grid-cols-[1fr_auto] items-baseline gap-4">
+            <dt class="text-ink-2 text-[0.95rem]">Tiempo de respuesta</dt>
+            <dd class="font-serif text-[1.9rem] leading-none">Mismo día</dd>
+          </div>
+          <div class="px-5 py-5 grid grid-cols-[1fr_auto] items-baseline gap-4">
+            <dt class="text-ink-2 text-[0.95rem]">Landing lista en</dt>
+            <dd class="font-serif text-[1.9rem] leading-none tabular">7–10 días</dd>
+          </div>
+          <div class="px-5 py-5 grid grid-cols-[1fr_auto] items-baseline gap-4">
+            <dt class="text-ink-2 text-[0.95rem]">Hosting y mantenimiento</dt>
+            <dd class="font-serif text-[1.9rem] leading-none text-accent">Incluidos</dd>
+          </div>
+        </dl>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios" class="border-t border-line">
+  <div class="max-w-page mx-auto px-5 md:px-8 pt-24 pb-28 grid grid-cols-1 lg:grid-cols-12 gap-12">
+    <div class="lg:col-span-4">
+      <div class="lg:sticky lg:top-28">
+        <p class="font-mono text-[0.78rem] text-ink-3 mb-4">01 — Lo que hacemos</p>
+        <h2 class="reveal font-serif text-[2.6rem] md:text-[3.25rem] leading-[1] tracking-[-0.015em]">Digital, pero <em>humano.</em></h2>
+        <p class="reveal mt-6 text-ink-2 max-w-[22rem]" style="--d:80ms">No vendemos humo ni soluciones genéricas. Diseñamos lo que tu negocio necesita para avanzar.</p>
+      </div>
+    </div>
+
+    <ol class="lg:col-span-8 border-t border-line">
+      <li class="reveal group border-b border-line">
+        <div class="grid grid-cols-[3rem_1fr] md:grid-cols-[4rem_1fr_auto] gap-x-4 gap-y-3 py-8 md:py-10 px-1 transition-colors duration-300 group-hover:bg-surface/60">
+          <span class="font-mono text-[0.8rem] text-ink-3 pt-2 tabular">01</span>
+          <div>
+            <h3 class="font-serif text-[1.9rem] md:text-[2.25rem] leading-none group-hover:translate-x-1 transition-transform duration-300">Sitios web</h3>
+            <p class="mt-3 text-ink-2 max-w-[30rem]">Landing pages y sitios corporativos que convierten visitas en oportunidades.</p>
+          </div>
+          <ul class="col-start-2 md:col-start-3 flex md:flex-col md:items-end gap-2 font-mono text-[0.74rem] text-ink-2 pt-1">
+            <li>WordPress</li><li class="text-ink-3 md:hidden">/</li><li>Elementor</li><li class="text-ink-3 md:hidden">/</li><li>SEO</li>
+          </ul>
+        </div>
+      </li>
+      <li class="reveal group border-b border-line">
+        <div class="grid grid-cols-[3rem_1fr] md:grid-cols-[4rem_1fr_auto] gap-x-4 gap-y-3 py-8 md:py-10 px-1 transition-colors duration-300 group-hover:bg-surface/60">
+          <span class="font-mono text-[0.8rem] text-ink-3 pt-2 tabular">02</span>
+          <div>
+            <h3 class="font-serif text-[1.9rem] md:text-[2.25rem] leading-none group-hover:translate-x-1 transition-transform duration-300">Tiendas online</h3>
+            <p class="mt-3 text-ink-2 max-w-[30rem]">Tiendas rápidas, claras y listas para vender sin fricción.</p>
+          </div>
+          <ul class="col-start-2 md:col-start-3 flex md:flex-col md:items-end gap-2 font-mono text-[0.74rem] text-ink-2 pt-1">
+            <li>WooCommerce</li><li class="text-ink-3 md:hidden">/</li><li>Shopify</li><li class="text-ink-3 md:hidden">/</li><li>Pagos</li>
+          </ul>
+        </div>
+      </li>
+      <li class="reveal group border-b border-line">
+        <div class="grid grid-cols-[3rem_1fr] md:grid-cols-[4rem_1fr_auto] gap-x-4 gap-y-3 py-8 md:py-10 px-1 transition-colors duration-300 group-hover:bg-surface/60">
+          <span class="font-mono text-[0.8rem] text-ink-3 pt-2 tabular">03</span>
+          <div>
+            <h3 class="font-serif text-[1.9rem] md:text-[2.25rem] leading-none group-hover:translate-x-1 transition-transform duration-300">Marketing digital</h3>
+            <p class="mt-3 text-ink-2 max-w-[30rem]">SEO básico y presencia en redes para que tu negocio se deje encontrar.</p>
+          </div>
+          <ul class="col-start-2 md:col-start-3 flex md:flex-col md:items-end gap-2 font-mono text-[0.74rem] text-ink-2 pt-1">
+            <li>SEO</li><li class="text-ink-3 md:hidden">/</li><li>Redes</li><li class="text-ink-3 md:hidden">/</li><li>Ads</li>
+          </ul>
+        </div>
+      </li>
+      <li class="reveal group border-b border-line">
+        <div class="grid grid-cols-[3rem_1fr] md:grid-cols-[4rem_1fr_auto] gap-x-4 gap-y-3 py-8 md:py-10 px-1 transition-colors duration-300 group-hover:bg-surface/60">
+          <span class="font-mono text-[0.8rem] text-ink-3 pt-2 tabular">04</span>
+          <div>
+            <h3 class="font-serif text-[1.9rem] md:text-[2.25rem] leading-none group-hover:translate-x-1 transition-transform duration-300">Mantenimiento</h3>
+            <p class="mt-3 text-ink-2 max-w-[30rem]">Soporte continuo, mejoras y tranquilidad para tu equipo.</p>
+          </div>
+          <ul class="col-start-2 md:col-start-3 flex md:flex-col md:items-end gap-2 font-mono text-[0.74rem] text-ink-2 pt-1">
+            <li>Hosting</li><li class="text-ink-3 md:hidden">/</li><li>Seguridad</li><li class="text-ink-3 md:hidden">/</li><li>Soporte</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- PLANES -->
+<section id="planes" class="border-t border-line bg-surface/40">
+  <div class="max-w-page mx-auto px-5 md:px-8 pt-24 pb-28">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end mb-14">
+      <div class="lg:col-span-7">
+        <p class="font-mono text-[0.78rem] text-ink-3 mb-4">02 — Inversión clara</p>
+        <h2 class="reveal font-serif text-[2.6rem] md:text-[3.25rem] leading-[1] tracking-[-0.015em]">Elige el punto de partida <em>correcto.</em></h2>
+      </div>
+      <p class="reveal lg:col-span-5 text-ink-2 max-w-[28rem]" style="--d:80ms">
+        Estructuras transparentes según la etapa de tu negocio. <span class="text-ink">Todos los planes incluyen hosting y mantenimiento mensual.</span>
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 rounded-box border border-line overflow-hidden bg-bg">
+      <!-- Landing -->
+      <article class="reveal flex flex-col p-7 md:p-8 border-b lg:border-b-0 lg:border-r border-line">
+        <header class="min-h-[6.5rem]">
+          <h3 class="font-serif text-[2rem] leading-none">Landing page</h3>
+          <p class="mt-3 text-[0.95rem] text-ink-2">Para campañas de publicidad y captación de leads.</p>
+        </header>
+        <div class="mt-6 pb-6 border-b border-line">
+          <p class="font-mono text-[0.72rem] text-ink-3">desde</p>
+          <p class="mt-1 flex items-baseline gap-2">
+            <span class="font-serif text-[3.25rem] leading-none tabular">$3,500</span>
+            <span class="font-mono text-[0.78rem] text-ink-2">MXN</span>
+          </p>
+          <p class="mt-1 font-mono text-[0.75rem] text-ink-3 tabular">≈ $205 USD</p>
+        </div>
+        <ul class="mt-6 flex flex-col gap-3 text-[0.95rem]">
+          <li class="flex gap-3"><i class="ph ph-check text-ink-2 mt-1" aria-hidden="true"></i>Página única persuasiva</li>
+          <li class="flex gap-3"><i class="ph ph-check text-ink-2 mt-1" aria-hidden="true"></i>Formulario anti-spam</li>
+          <li class="flex gap-3"><i class="ph ph-check text-ink-2 mt-1" aria-hidden="true"></i>Botón flotante de WhatsApp</li>
+          <li class="flex gap-3"><i class="ph ph-check text-ink-2 mt-1" aria-hidden="true"></i>Diseño 100% responsivo</li>
+          <li class="flex gap-3"><i class="ph ph-check text-ink-2 mt-1" aria-hidden="true"></i>SEO básico listo para indexar</li>
+        </ul>
+        <a href="#contacto" data-plan="landing" class="plan-cta mt-auto pt-8">
+          <span class="flex items-center justify-center gap-2 h-11 rounded-btn border border-line-strong text-ink hover:bg-surface-2 hover:border-ink-3 active:scale-[.98] transition duration-200">Cotizar este plan <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+        </a>
+      </article>
+
+      <!-- Corporativo (recomendado) -->
+      <article class="reveal relative flex flex-col p-7 md:p-8 bg-surface-2 border-b lg:border-b-0 lg:border-r border-line" style="--d:80ms">
+        <span class="absolute inset-x-0 top-0 h-[2px] bg-accent" aria-hidden="true"></span>
+        <header class="min-h-[6.5rem]">
+          <div class="flex items-center justify-between gap-4">
+            <h3 class="font-serif text-[2rem] leading-none">Sitio corporativo</h3>
+            <span class="font-mono text-[0.7rem] px-2 py-1 rounded-[4px] bg-accent/15 text-accent">recomendado</span>
+          </div>
+          <p class="mt-3 text-[0.95rem] text-ink-2">Para empresas que quieren comunicar autoridad y confianza.</p>
+        </header>
+        <div class="mt-6 pb-6 border-b border-line">
+          <p class="font-mono text-[0.72rem] text-ink-3">desde</p>
+          <p class="mt-1 flex items-baseline gap-2">
+            <span class="font-serif text-[3.25rem] leading-none tabular text-accent">$6,900</span>
+            <span class="font-mono text-[0.78rem] text-ink-2">MXN</span>
+          </p>
+          <p class="mt-1 font-mono text-[0.75rem] text-ink-3 tabular">≈ $405 USD</p>
+        </div>
+        <ul class="mt-6 flex flex-col gap-3 text-[0.95rem]">
+          <li class="flex gap-3"><i class="ph ph-check text-accent mt-1" aria-hidden="true"></i>Hasta 5 páginas internas</li>
+          <li class="flex gap-3"><i class="ph ph-check text-accent mt-1" aria-hidden="true"></i>Panel propio para editar blog y portafolio</li>
+          <li class="flex gap-3"><i class="ph ph-check text-accent mt-1" aria-hidden="true"></i>Google Analytics y píxeles</li>
+          <li class="flex gap-3"><i class="ph ph-check text-accent mt-1" aria-hidden="true"></i>Sesión de capacitación para tu equipo</li>
+          <li class="flex gap-3 text-ink-2"><i class="ph ph-stack text-accent mt-1" aria-hidden="true"></i>Todo lo de Landing page</li>
+        </ul>
+        <a href="#contacto" data-plan="corporativo" class="plan-cta mt-auto pt-8">
+          <span class="flex items-center justify-center gap-2 h-11 rounded-btn bg-accent text-accent-ink font-medium hover:bg-[#4dbbe8] active:scale-[.98] transition duration-200">Cotizar este plan <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+        </a>
+      </article>
+
+      <!-- Tienda -->
+      <article class="reveal flex flex-col p-7 md:p-8" style="--d:160ms">
+        <header class="min-h-[6.5rem]">
+          <h3 class="font-serif text-[2rem] leading-none">Tienda online</h3>
+          <p class="mt-3 text-[0.95rem] text-ink-2">Para marcas que quieren vender en línea sin complicaciones.</p>
+        </header>
+        <div class="mt-6 pb-6 border-b border-line">
+          <p class="font-mono text-[0.72rem] text-ink-3">desde</p>
+          <p class="mt-1 flex items-baseline gap-2">
+            <span class="font-serif text-[3.25rem] leading-none tabular">$7,800</span>
+            <span class="font-mono text-[0.78rem] text-ink-2">MXN</span>
+          </p>
+          <p class="mt-1 font-mono text-[0.75rem] text-ink-3 tabular">≈ $460 USD</p>
+        </div>
+        <ul class="mt-6 flex flex-col gap-3 text-[0.95rem]">
+          <li class="flex gap-3"><i class="ph ph-check text-ink-2 mt-1" aria-hidden="true"></i>WooCommerce con diseño en Elementor</li>
+          <li class="flex gap-3"><i class="ph ph-check text-ink-2 mt-1" aria-hidden="true"></i>Pasarelas: Stripe, PayPal, MercadoPago</li>
+          <li class="flex gap-3"><i class="ph ph-check text-ink-2 mt-1" aria-hidden="true"></i>Reglas de envío e impuestos</li>
+          <li class="flex gap-3"><i class="ph ph-check text-ink-2 mt-1" aria-hidden="true"></i>Carga de hasta 50 productos</li>
+          <li class="flex gap-3"><i class="ph ph-check text-ink-2 mt-1" aria-hidden="true"></i>Correos de pedido configurados</li>
+        </ul>
+        <a href="#contacto" data-plan="ecommerce" class="plan-cta mt-auto pt-8">
+          <span class="flex items-center justify-center gap-2 h-11 rounded-btn border border-line-strong text-ink hover:bg-surface-2 hover:border-ink-3 active:scale-[.98] transition duration-200">Cotizar este plan <i class="ph ph-arrow-right" aria-hidden="true"></i></span>
+        </a>
+      </article>
+    </div>
+
+    <!-- Incluido + extras -->
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="reveal rounded-box border border-line p-6 flex gap-4">
+        <i class="ph ph-hard-drives text-[1.4rem] text-accent shrink-0" aria-hidden="true"></i>
+        <div>
+          <p class="font-medium">Hosting y mantenimiento, incluidos en todos los planes.</p>
+          <p class="mt-1.5 text-[0.93rem] text-ink-2">Respaldos, actualizaciones de seguridad, monitoreo y soporte directo. Tu sitio nunca se te queda solo.</p>
+        </div>
+      </div>
+      <div class="reveal rounded-box border border-line p-6 flex gap-4" style="--d:80ms">
+        <i class="ph ph-megaphone-simple text-[1.4rem] text-ink-2 shrink-0" aria-hidden="true"></i>
+        <div>
+          <p class="font-medium">También ofrezco redes y publicidad.</p>
+          <p class="mt-1.5 text-[0.93rem] text-ink-2">Gestión de redes sociales y campañas en Google Ads y Meta Ads. <a href="#contacto" class="text-ink underline decoration-line-strong underline-offset-4 hover:decoration-accent">Pregúntame por la cotización</a>.</p>
+        </div>
+      </div>
+    </div>
+    <p class="mt-6 font-mono text-[0.75rem] text-ink-3">Precios en MXN más IVA. Equivalencia en USD aproximada. Dominio no incluido.</p>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section id="proceso" class="border-t border-line">
+  <div class="max-w-page mx-auto px-5 md:px-8 pt-24 pb-28">
+    <p class="font-mono text-[0.78rem] text-ink-3 mb-4">03 — Así trabajamos</p>
+    <h2 class="reveal font-serif text-[2.6rem] md:text-[3.25rem] leading-[1] tracking-[-0.015em] max-w-[36rem]">Simple de principio <em>a fin.</em></h2>
+
+    <ol class="relative mt-16 grid grid-cols-1 lg:grid-cols-4 gap-12 lg:gap-8">
+      <span class="trace hidden lg:block absolute top-[7px] left-0 right-0 h-px" aria-hidden="true"></span>
+      <span class="trace-v lg:hidden absolute top-0 bottom-0 left-[7px] w-px" aria-hidden="true"></span>
+
+      <li class="reveal relative pl-10 lg:pl-0 lg:pt-12">
+        <span class="absolute left-0 top-0 w-[15px] h-[15px] rounded-full border-2 border-accent bg-bg flex items-center justify-center"><span class="w-[5px] h-[5px] rounded-full bg-accent"></span></span>
+        <p class="font-mono text-[0.75rem] text-ink-3 tabular">paso 01</p>
+        <h3 class="mt-2 font-serif text-[1.8rem] leading-none">Entendemos</h3>
+        <p class="mt-3 text-ink-2 text-[0.95rem] max-w-[18rem]">Nos cuentas qué quieres lograr y qué está frenando tu negocio.</p>
+      </li>
+      <li class="reveal relative pl-10 lg:pl-0 lg:pt-12" style="--d:80ms">
+        <span class="absolute left-0 top-0 w-[15px] h-[15px] rounded-full border-2 border-accent/60 bg-bg flex items-center justify-center"><span class="w-[5px] h-[5px] rounded-full bg-accent/60"></span></span>
+        <p class="font-mono text-[0.75rem] text-ink-3 tabular">paso 02</p>
+        <h3 class="mt-2 font-serif text-[1.8rem] leading-none">Diseñamos</h3>
+        <p class="mt-3 text-ink-2 text-[0.95rem] max-w-[18rem]">Convertimos la estrategia en una experiencia clara, útil y bonita.</p>
+      </li>
+      <li class="reveal relative pl-10 lg:pl-0 lg:pt-12" style="--d:160ms">
+        <span class="absolute left-0 top-0 w-[15px] h-[15px] rounded-full border-2 border-accent/60 bg-bg flex items-center justify-center"><span class="w-[5px] h-[5px] rounded-full bg-accent/60"></span></span>
+        <p class="font-mono text-[0.75rem] text-ink-3 tabular">paso 03</p>
+        <h3 class="mt-2 font-serif text-[1.8rem] leading-none">Construimos</h3>
+        <p class="mt-3 text-ink-2 text-[0.95rem] max-w-[18rem]">Desarrollamos, probamos y dejamos todo listo para lanzar.</p>
+      </li>
+      <li class="reveal relative pl-10 lg:pl-0 lg:pt-12" style="--d:240ms">
+        <span class="absolute left-0 top-0 w-[15px] h-[15px] rounded-full border-2 border-accent/60 bg-bg flex items-center justify-center"><span class="w-[5px] h-[5px] rounded-full bg-accent/60"></span></span>
+        <p class="font-mono text-[0.75rem] text-ink-3 tabular">paso 04</p>
+        <h3 class="mt-2 font-serif text-[1.8rem] leading-none">Acompañamos</h3>
+        <p class="mt-3 text-ink-2 text-[0.95rem] max-w-[18rem]">Seguimos cerca para mejorar y mantener tu proyecto creciendo.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- PROYECTOS -->
+<section id="proyectos" class="border-t border-line bg-surface/40">
+  <div class="max-w-page mx-auto px-5 md:px-8 pt-24 pb-28">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end mb-14">
+      <div class="lg:col-span-6">
+        <p class="font-mono text-[0.78rem] text-ink-3 mb-4">04 — Proyectos</p>
+        <h2 class="reveal font-serif text-[2.6rem] md:text-[3.25rem] leading-[1] tracking-[-0.015em]">Construyendo el <em>portafolio.</em></h2>
+      </div>
+      <p class="reveal lg:col-span-6 text-ink-2 max-w-[32rem] lg:justify-self-end" style="--d:80ms">
+        Estamos armando nuestros primeros proyectos. Muy pronto vas a ver aquí resultados reales. Si eres de los primeros en trabajar con nosotros, tu proyecto puede ser el que aparezca en este espacio.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <article class="reveal lg:col-span-7 lg:row-span-2 group rounded-box border border-line overflow-hidden bg-bg flex flex-col">
+        <div class="relative aspect-[4/3] lg:aspect-auto lg:flex-1 overflow-hidden bg-surface-2">
+          <img class="absolute inset-0 w-full h-full object-cover opacity-50 grayscale-[35%] group-hover:scale-[1.03] group-hover:opacity-60 transition duration-700" alt="Maqueta de interfaz de tienda online en un monitor de escritorio" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNa98iAElXWMc0jfZ5YoCw-CA-4L5ynMz0Q6ovL0fwPRB8nOOxMdxt95jqdIvyZ-Dzg-wgqqIGfnSAJEe0q3RDO7RkSQilDUQjEgo53NFeaYXnC9hxEteySL69JAEjc1KOI7cCC2lN2UMmIIqn611FqCQd2Hf9aJJSzubZ28tL7HyY-LhCBB4hSI45vYj5biJLMY7uUMfE6gwI94kg4us3_4hrtTFgC6EpyJmRQGjR6GXbys8YIRul"/>
+          <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/20 to-transparent"></div>
+          <span class="absolute top-4 left-4 font-mono text-[0.7rem] px-2 py-1 rounded-[4px] bg-bg/80 border border-line text-ink-2">en desarrollo</span>
+        </div>
+        <div class="p-6 md:p-7">
+          <p class="font-mono text-[0.72rem] text-ink-3">arquitectura &amp; tienda</p>
+          <h3 class="mt-2 font-serif text-[2rem] leading-none">E-commerce especializado</h3>
+          <p class="mt-3 text-ink-2 text-[0.95rem] max-w-[30rem]">Plataforma de alta velocidad optimizada para transacciones y pagos directos.</p>
+        </div>
+      </article>
+
+      <article class="reveal lg:col-span-5 group rounded-box border border-line overflow-hidden bg-bg grid grid-cols-[40%_1fr]" style="--d:80ms">
+        <div class="relative overflow-hidden bg-surface-2 min-h-[11rem]">
+          <img class="absolute inset-0 w-full h-full object-cover opacity-50 grayscale-[35%] group-hover:scale-[1.04] group-hover:opacity-60 transition duration-700" alt="Maqueta de portal corporativo en una laptop" loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKgLJW51D32PrH9dXoLZl365P7lQ4nZSIRluFUK2hDC889sd9lURfjO2CW0j0TJlFhTHYxVoJfYPnJxwlX_nGYpXHmTE4ERjysNQvXRIGC6lzqSCq0p7ohlO6XtX7XB1lsoFwCdscSjkb2-ilEt77QDGun5obtsjrkcqXltyfTM_kaKCfStTPZjW6S92XoMZz0AqbI_qh3dlpxjffE_VrLD5DMKyL3bNx-Q47yUPk4iHg9_p1OnUnq"/>
+        </div>
+        <div class="p-6 flex flex-col">
+          <span class="self-start font-mono text-[0.7rem] px-2 py-1 rounded-[4px] border border-line text-ink-2">en desarrollo</span>
+          <p class="mt-4 font-mono text-[0.72rem] text-ink-3">marca &amp; autoridad</p>
+          <h3 class="mt-2 font-serif text-[1.6rem] leading-none">Sitio corporativo B2B</h3>
+          <p class="mt-2 text-ink-2 text-[0.9rem]">Blog dinámico, portafolio y analítica avanzada.</p>
+        </div>
+      </article>
+
+      <a href="#contacto" class="reveal lg:col-span-5 group rounded-box border border-dashed border-line-strong hover:border-accent bg-bg p-6 md:p-7 flex flex-col justify-between min-h-[13rem] transition-colors duration-300" style="--d:160ms">
+        <div class="flex items-center justify-between">
+          <span class="font-mono text-[0.72rem] text-accent">campañas &amp; leads</span>
+          <i class="ph ph-arrow-up-right text-[1.3rem] text-ink-2 group-hover:text-accent group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition duration-300" aria-hidden="true"></i>
+        </div>
+        <div>
+          <h3 class="font-serif text-[1.9rem] leading-[1.05]">Tu proyecto <em>aquí.</em></h3>
+          <p class="mt-2 text-ink-2 text-[0.93rem] max-w-[24rem]">Una landing de conversión estructurada para capturar contactos y acelerar el retorno de tu inversión.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="border-t border-line">
+  <div class="max-w-page mx-auto px-5 md:px-8 pt-24 pb-28 grid grid-cols-1 lg:grid-cols-12 gap-12">
+    <div class="lg:col-span-4">
+      <div class="lg:sticky lg:top-28">
+        <p class="font-mono text-[0.78rem] text-ink-3 mb-4">05 — Preguntas frecuentes</p>
+        <h2 class="reveal font-serif text-[2.6rem] md:text-[3.25rem] leading-[1] tracking-[-0.015em]">Antes de <em>empezar.</em></h2>
+        <p class="reveal mt-6 text-ink-2 max-w-[22rem]" style="--d:80ms">¿Tu duda no está aquí? <a href="https://wa.me/527774117233" target="_blank" rel="noopener noreferrer" class="text-ink underline decoration-line-strong underline-offset-4 hover:decoration-accent">Escríbeme por WhatsApp</a>.</p>
+      </div>
+    </div>
+
+    <div class="lg:col-span-8 border-t border-line">
+      <details class="reveal group border-b border-line">
+        <summary class="flex items-start justify-between gap-6 py-6 cursor-pointer">
+          <span class="font-serif text-[1.55rem] leading-tight group-hover:text-accent transition-colors duration-200">¿Cuánto tiempo toma el desarrollo?</span>
+          <i class="faq-icon ph ph-plus text-[1.2rem] text-ink-2 mt-1.5 transition-transform duration-300" aria-hidden="true"></i>
+        </summary>
+        <p class="pb-7 -mt-1 text-ink-2 max-w-[40rem]">Una landing page puede estar lista en 7 a 10 días hábiles. Un sitio corporativo o tienda suele tomar entre 2 y 4 semanas, según el contenido y alcance.</p>
+      </details>
+      <details class="reveal group border-b border-line">
+        <summary class="flex items-start justify-between gap-6 py-6 cursor-pointer">
+          <span class="font-serif text-[1.55rem] leading-tight group-hover:text-accent transition-colors duration-200">¿Qué incluye el hosting y mantenimiento?</span>
+          <i class="faq-icon ph ph-plus text-[1.2rem] text-ink-2 mt-1.5 transition-transform duration-300" aria-hidden="true"></i>
+        </summary>
+        <p class="pb-7 -mt-1 text-ink-2 max-w-[40rem]">Viene incluido en todos los planes: servidor optimizado, respaldos continuos, actualizaciones de seguridad, monitoreo y soporte técnico directo.</p>
+      </details>
+      <details class="reveal group border-b border-line">
+        <summary class="flex items-start justify-between gap-6 py-6 cursor-pointer">
+          <span class="font-serif text-[1.55rem] leading-tight group-hover:text-accent transition-colors duration-200">¿Qué necesito tener listo para empezar?</span>
+          <i class="faq-icon ph ph-plus text-[1.2rem] text-ink-2 mt-1.5 transition-transform duration-300" aria-hidden="true"></i>
+        </summary>
+        <p class="pb-7 -mt-1 text-ink-2 max-w-[40rem]">Tu logo, los textos principales (o una idea de lo que quieres decir) y fotos de tu negocio si las tienes. Si te falta algo, lo resolvemos juntos en la llamada de diagnóstico.</p>
+      </details>
+      <details class="reveal group border-b border-line">
+        <summary class="flex items-start justify-between gap-6 py-6 cursor-pointer">
+          <span class="font-serif text-[1.55rem] leading-tight group-hover:text-accent transition-colors duration-200">¿Puedo pedir cambios durante el proyecto?</span>
+          <i class="faq-icon ph ph-plus text-[1.2rem] text-ink-2 mt-1.5 transition-transform duration-300" aria-hidden="true"></i>
+        </summary>
+        <p class="pb-7 -mt-1 text-ink-2 max-w-[40rem]">Sí. Cada etapa incluye rondas de revisión antes de avanzar a la siguiente, para que el resultado final sea lo que esperabas.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto" class="border-t border-line bg-surface/40">
+  <div class="max-w-page mx-auto px-5 md:px-8 pt-24 pb-28 grid grid-cols-1 lg:grid-cols-12 gap-14">
+    <div class="lg:col-span-5">
+      <p class="font-mono text-[0.78rem] text-ink-3 mb-4">06 — Contacto directo</p>
+      <h2 class="reveal font-serif text-[2.8rem] md:text-[3.75rem] leading-[0.98] tracking-[-0.015em]">Hagamos algo que <em class="text-accent">valga la pena.</em></h2>
+      <p class="reveal mt-6 text-ink-2 max-w-[28rem]" style="--d:80ms">Te recomiendo la tecnología adecuada según tu objetivo y presupuesto, y recibes una cotización a la medida tras la llamada.</p>
+
+      <ul class="mt-10 border-t border-line">
+        <li>
+          <a href="https://cal.com/miguel-angel-programacion/diagnostico" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-4 py-5 border-b border-line">
+            <i class="ph ph-calendar-blank text-[1.4rem] text-ink-2 group-hover:text-accent transition-colors" aria-hidden="true"></i>
+            <span class="flex-1 min-w-0">
+              <span class="block font-mono text-[0.72rem] text-ink-3">diagnóstico de 20 min</span>
+              <span class="block truncate group-hover:text-accent transition-colors">cal.com/miguel-angel-programacion</span>
+            </span>
+            <i class="ph ph-arrow-up-right text-ink-3 group-hover:text-accent group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition duration-300" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li>
+          <a href="https://wa.me/527774117233" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-4 py-5 border-b border-line">
+            <i class="ph ph-whatsapp-logo text-[1.4rem] text-ink-2 group-hover:text-accent transition-colors" aria-hidden="true"></i>
+            <span class="flex-1">
+              <span class="block font-mono text-[0.72rem] text-ink-3">teléfono y whatsapp</span>
+              <span class="block tabular group-hover:text-accent transition-colors">+52 777 411 7233</span>
+            </span>
+            <i class="ph ph-arrow-up-right text-ink-3 group-hover:text-accent group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition duration-300" aria-hidden="true"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="lg:col-span-7">
+      <div class="reveal rounded-box border border-line bg-bg shadow-warm p-6 md:p-9" style="--d:120ms">
+        <h3 class="font-serif text-[2rem] leading-none">Cuéntanos tu proyecto.</h3>
+        <p class="mt-2 text-[0.95rem] text-ink-2">Llena estos datos y te contactamos el mismo día.</p>
+
+        <form id="contact-form" class="mt-8 flex flex-col gap-5" novalidate>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div class="field flex flex-col gap-2">
+              <label for="name" class="text-[0.88rem] text-ink-2">Nombre</label>
+              <input id="name" name="name" type="text" autocomplete="name" required placeholder="Tu nombre completo" class="h-12 px-4 rounded-btn bg-surface border border-line text-ink placeholder:text-ink-3 focus:outline-none focus:border-accent transition-colors duration-200"/>
+              <p class="field-error hidden text-[0.82rem] text-danger">Escribe tu nombre.</p>
+            </div>
+            <div class="field flex flex-col gap-2">
+              <label for="email" class="text-[0.88rem] text-ink-2">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required placeholder="correo@empresa.com" class="h-12 px-4 rounded-btn bg-surface border border-line text-ink placeholder:text-ink-3 focus:outline-none focus:border-accent transition-colors duration-200"/>
+              <p class="field-error hidden text-[0.82rem] text-danger">Revisa el formato del correo.</p>
+            </div>
+          </div>
+          <div class="field flex flex-col gap-2">
+            <label for="project-type" class="text-[0.88rem] text-ink-2">Tipo de proyecto</label>
+            <select id="project-type" name="project-type" class="h-12 pl-4 pr-10 rounded-btn bg-surface border border-line text-ink focus:outline-none focus:border-accent transition-colors duration-200">
+              <option value="landing">Landing page — desde $3,500 MXN</option>
+              <option value="corporativo">Sitio corporativo — desde $6,900 MXN</option>
+              <option value="ecommerce">Tienda online — desde $7,800 MXN</option>
+              <option value="medida">Plataforma a medida</option>
+            </select>
+          </div>
+          <div class="field flex flex-col gap-2">
+            <label for="message" class="text-[0.88rem] text-ink-2">Cuéntanos tu idea</label>
+            <textarea id="message" name="message" rows="5" required placeholder="Objetivos, fecha estimada o requerimientos especiales" class="px-4 py-3 rounded-btn bg-surface border border-line text-ink placeholder:text-ink-3 focus:outline-none focus:border-accent transition-colors duration-200 resize-none"></textarea>
+            <p class="field-error hidden text-[0.82rem] text-danger">Cuéntanos al menos un poco sobre tu proyecto.</p>
+          </div>
+          <button id="submit-btn" type="submit" class="mt-2 h-12 rounded-btn bg-accent text-accent-ink font-medium flex items-center justify-center gap-2 hover:bg-[#4dbbe8] active:scale-[.99] disabled:opacity-70 disabled:cursor-wait transition duration-200">
+            <span data-label>Enviar mensaje</span>
+            <i class="ph ph-paper-plane-tilt" data-icon aria-hidden="true"></i>
+          </button>
+          <p id="form-status" class="text-[0.9rem] text-ink-2 min-h-[1.5rem]" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-line">
+  <div class="max-w-page mx-auto px-5 md:px-8 pt-16 pb-10">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-10">
+      <div class="md:col-span-6">
+        <img src="logo-miguel.png" alt="MAC — Miguel Angel Cabrera, desarrollo web y electrónica" class="logo-dark w-[230px] h-auto -ml-2" width="480" height="244" loading="lazy"/>
+        <p class="mt-4 text-ink-2 text-[0.95rem] max-w-[28rem]">Estudio independiente de desarrollo web, microcontroladores y electrónica aplicada. Remoto desde México.</p>
+        <p class="mt-5 inline-flex items-center gap-2.5 font-mono text-[0.75rem] text-ink-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-signal led led-blink"></span>
+          Disponible para nuevos proyectos
+        </p>
+      </div>
+      <div class="md:col-span-6 md:justify-self-end grid grid-cols-2 gap-10 text-[0.93rem]">
+        <div>
+          <p class="font-mono text-[0.72rem] text-ink-3 mb-4">contacto</p>
+          <ul class="flex flex-col gap-2.5">
+            <li><a href="tel:+527774117233" class="hover:text-accent transition-colors tabular">+52 777 411 7233</a></li>
+            <li><a href="https://wa.me/527774117233" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">WhatsApp</a></li>
+            <li><a href="https://cal.com/miguel-angel-programacion/diagnostico" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">Agendar llamada</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="font-mono text-[0.72rem] text-ink-3 mb-4">sitio</p>
+          <ul class="flex flex-col gap-2.5">
+            <li><a href="#servicios" class="hover:text-accent transition-colors">Servicios</a></li>
+            <li><a href="#planes" class="hover:text-accent transition-colors">Planes</a></li>
+            <li><a href="#faq" class="hover:text-accent transition-colors">Preguntas</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="mt-14 pt-6 border-t border-line flex flex-col sm:flex-row justify-between gap-4 font-mono text-[0.72rem] text-ink-3">
+      <p>© 2026 MAC — Miguel Angel Cabrera</p>
+      <!-- TODO: enlazar páginas reales de aviso de privacidad y términos -->
+      <div class="flex gap-6">
+        <a href="aviso-de-privacidad.html" class="hover:text-ink transition-colors">Aviso de privacidad</a>
+        <a href="terminos.html" class="hover:text-ink transition-colors">Términos del servicio</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  // Mobile menu
+  const btn = document.getElementById('menu-btn');
+  const panel = document.getElementById('menu-panel');
+  const setMenu = (open) => {
+    panel.classList.toggle('hidden', !open);
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    btn.querySelector('i').className = 'ph ' + (open ? 'ph-x' : 'ph-list') + ' text-[1.25rem]';
+  };
+  btn.addEventListener('click', () => setMenu(panel.classList.contains('hidden')));
+  panel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
+  // Active nav link
+  const links = [...document.querySelectorAll('#nav-desktop .nav-link')];
+  const sections = [...document.querySelectorAll('main > section[id]')];
+  const navObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      links.forEach(l => {
+        const active = l.getAttribute('href') === '#' + entry.target.id;
+        l.classList.toggle('text-ink', active);
+        l.classList.toggle('bg-surface-2', active);
+        l.classList.toggle('text-ink-2', !active);
+        active ? l.setAttribute('aria-current', 'true') : l.removeAttribute('aria-current');
+      });
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  sections.forEach(s => s && navObs.observe(s));
+
+  // Reveal on scroll
+  const revObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('is-in'); revObs.unobserve(entry.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+  // Plan CTA preselects project type
+  const select = document.getElementById('project-type');
+  document.querySelectorAll('.plan-cta').forEach(a => a.addEventListener('click', () => { select.value = a.dataset.plan; }));
+
+  // Form validation + submit state
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+  const submit = document.getElementById('submit-btn');
+  const emailOk = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+  const check = (input) => {
+    const field = input.closest('.field');
+    const v = input.value.trim();
+    const ok = input.type === 'email' ? emailOk(v) : v.length > 0;
+    field.dataset.invalid = String(!ok);
+    input.setAttribute('aria-invalid', String(!ok));
+    return ok;
+  };
+  const required = [...form.querySelectorAll('[required]')];
+  required.forEach(i => i.addEventListener('blur', () => { if (i.value) check(i); }));
+  required.forEach(i => i.addEventListener('input', () => { if (i.closest('.field').dataset.invalid === 'true') check(i); }));
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const results = required.map(check);
+    if (results.includes(false)) {
+      status.textContent = 'Revisa los campos marcados.';
+      required[results.indexOf(false)].focus();
+      return;
+    }
+    // TODO: conectar a un endpoint real (Formspree, Cloudflare Worker, etc.)
+    submit.disabled = true;
+    submit.querySelector('[data-label]').textContent = 'Enviando…';
+    status.textContent = '';
+    setTimeout(() => {
+      submit.disabled = false;
+      submit.querySelector('[data-label]').textContent = 'Enviar mensaje';
+      status.textContent = 'Mensaje recibido. Te respondo hoy mismo.';
+      form.reset();
+    }, 900);
+  });
+})();
+</script>
+</body>
+</html>

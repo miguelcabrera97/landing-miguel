@@ -1,0 +1,5 @@
+node_modules/
+*.log
+.wrangler/
+screen-verif-*.png
+screen-hero.png
