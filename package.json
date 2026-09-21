@@ -8,7 +8,7 @@
     "fonts": "node scripts/fetch-fonts.mjs",
     "images": "node scripts/optimize-images.mjs",
     "build": "npm run build:css",
-    "deploy": "npm run build && npx wrangler pages deploy public --project-name mac-landing"
+    "deploy": "npm run build && npx wrangler pages deploy"
   },
   "devDependencies": {
     "@phosphor-icons/core": "^2.1.1",
