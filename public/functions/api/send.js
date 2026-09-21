@@ -23,7 +23,7 @@ export async function onRequestPost(context) {
       return Response.json({ success: false, error: 'Mensaje demasiado largo.' }, { status: 400 });
     }
 
-    const apiKey = env.MAILCHANNELS_API_KEY;
+    const apiKey = env.RESEND_API_KEY;
     const toEmail = env.TO_EMAIL;
     const fromEmail = env.FROM_EMAIL;
 
@@ -34,26 +34,24 @@ export async function onRequestPost(context) {
       );
     }
 
-    const mailRes = await fetch('https://api.mailchannels.net/tx/v1/send', {
+    const mailRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
         authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        personalizations: [{ to: [{ email: toEmail, name: 'Miguel Angel Cabrera' }] }],
-        from: { email: fromEmail, name: 'Sitio web MAC' },
-        replyTo: { email, name },
+        from: fromEmail,
+        to: [toEmail],
+        reply_to: email,
         subject: `Contacto desde la landing — ${projectType || 'consulta'}`,
-        content: [
-          { type: 'text/plain', value: buildMailText({ name, email, projectType, message }) },
-        ],
+        text: buildMailText({ name, email, projectType, message }),
       }),
     });
 
     if (!mailRes.ok) {
       const detail = await mailRes.text();
-      console.error('MailChannels error', mailRes.status, detail);
+      console.error('Resend error', mailRes.status, detail);
       return Response.json({ success: false, error: 'Envío falló.' }, { status: 502 });
     }
 
