@@ -1,5 +1,6 @@
 node_modules/
 *.log
 .wrangler/
+_worker.bundle
 screen-verif-*.png
 screen-hero.png
